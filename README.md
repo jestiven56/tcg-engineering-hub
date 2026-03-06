@@ -20,7 +20,7 @@ MVP SaaS para ejecutar el TCG Engineering Framework en proyectos de software.
 
 ### 1. Clonar el repositorio
 ```bash
-git clone https://github.com/tu-usuario/tcg-engineering-hub.git
+git clone https://github.com/jestiven56/tcg-engineering-hub.git
 cd tcg-engineering-hub
 ```
 
