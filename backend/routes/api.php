@@ -42,5 +42,11 @@ Route::prefix('v1')->group(function () {
 
         // Audit
         Route::get('projects/{project}/audit', [AuditEventController::class, 'index']);
+
+        // Users (solo para testing, eliminar en producción)
+        Route::get('users', function () {
+            return \App\Http\Responses\ApiResponse::success(\App\Models\User::select('id', 'name', 'role')->get());
+        });
+
     });
 });

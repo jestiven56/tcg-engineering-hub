@@ -1,66 +1,150 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# TCG Engineering Hub
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+MVP SaaS para ejecutar el TCG Engineering Framework en proyectos de software.
 
-## About Laravel
+**Stack:** Laravel 10 (API) + Vue 3 (Frontend)
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+---
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Requisitos
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- PHP 8.1+
+- Composer
+- Node.js 18+
+- MySQL 8+
+- Laragon (recomendado en Windows)
 
-## Learning Laravel
+---
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## Instalación
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+### 1. Clonar el repositorio
+```bash
+git clone https://github.com/tu-usuario/tcg-engineering-hub.git
+cd tcg-engineering-hub
+```
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### 2. Backend (Laravel)
+```bash
+cd backend
+composer install
+cp .env.example .env
+php artisan key:generate
+```
 
-## Laravel Sponsors
+Edita `.env` con tus credenciales de base de datos:
+```env
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=tcg_engineering_hub
+DB_USERNAME=root
+DB_PASSWORD=
+```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+Ejecuta migraciones y seeders:
+```bash
+php artisan migrate:fresh --seed
+php artisan serve
+```
 
-### Premium Partners
+El backend estará disponible en: `http://localhost:8000`
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+---
 
-## Contributing
+### 3. Frontend (Vue 3)
+```bash
+cd frontend
+npm install
+npm run dev
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+El frontend estará disponible en: `http://localhost:5173`
 
-## Code of Conduct
+---
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+## Usuarios de prueba
 
-## Security Vulnerabilities
+Todos los usuarios tienen la misma contraseña: `password`
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+| Nombre          | Email               | Rol      | Permisos                          |
+|-----------------|---------------------|----------|-----------------------------------|
+| Admin TCG       | admin@tcg.com       | admin    | Acceso total                      |
+| Project Manager | pm@tcg.com          | pm       | Gestionar proyectos y artefactos  |
+| Engineer        | engineer@tcg.com    | engineer | Editar y validar módulos          |
+| Viewer          | viewer@tcg.com      | viewer   | Solo lectura                      |
 
-## License
+---
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## Ejecutar tests
+```bash
+cd backend
+php artisan test
+```
+
+Output esperado:
+```
+PASS  Tests\Feature\GateOneTest
+✓ cannot complete domain breakdown if big picture not done
+✓ can complete domain breakdown if big picture is done
+
+PASS  Tests\Feature\ModuleValidationTest
+✓ cannot validate module with missing fields
+✓ can validate module with all required fields
+
+PASS  Tests\Feature\ProjectStatusGateTest
+✓ cannot move to execution if required artifacts not done
+✓ can move to execution if all required artifacts done
+
+PASS  Tests\Feature\AuthorizationTest
+✓ viewer cannot edit modules
+✓ viewer cannot edit artifacts
+✓ viewer cannot validate modules
+✓ engineer can edit modules
+
+Tests: 10 passed
+```
+
+---
+
+## Endpoints principales
+
+### Auth
+```
+POST   /api/v1/login
+POST   /api/v1/logout
+GET    /api/v1/me
+```
+
+### Proyectos
+```
+GET    /api/v1/projects
+POST   /api/v1/projects
+GET    /api/v1/projects/{id}
+PUT    /api/v1/projects/{id}
+PATCH  /api/v1/projects/{id}/status
+DELETE /api/v1/projects/{id}
+```
+
+### Artefactos
+```
+GET    /api/v1/projects/{id}/artifacts
+GET    /api/v1/projects/{id}/artifacts/{artifactId}
+PUT    /api/v1/projects/{id}/artifacts/{artifactId}
+PATCH  /api/v1/projects/{id}/artifacts/{artifactId}/status
+```
+
+### Módulos
+```
+GET    /api/v1/projects/{id}/modules
+POST   /api/v1/projects/{id}/modules
+GET    /api/v1/projects/{id}/modules/{moduleId}
+PUT    /api/v1/projects/{id}/modules/{moduleId}
+PATCH  /api/v1/projects/{id}/modules/{moduleId}/validate
+DELETE /api/v1/projects/{id}/modules/{moduleId}
+```
+
+### Auditoría
+```
+GET    /api/v1/projects/{id}/audit
+```

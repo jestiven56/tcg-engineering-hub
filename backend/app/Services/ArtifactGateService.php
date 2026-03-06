@@ -22,9 +22,11 @@ class ArtifactGateService
      * Verifica si un artefacto puede marcarse como "done".
      * Retorna array con: ['allowed' => bool, 'reason' => string|null]
      */
-    public function canMarkDone(Project $project, string $artifactType): array
+    public function canMarkDone(Project $project, string|ArtifactType $artifactType): array
     {
-        return match ($artifactType) {
+        $value = $artifactType instanceof ArtifactType ? $artifactType->value : $artifactType;
+
+        return match ($value) {
             ArtifactType::DomainBreakdown->value  => $this->checkDomainBreakdown($project),
             ArtifactType::ModuleMatrix->value      => $this->checkModuleMatrix($project),
             ArtifactType::SystemArchitecture->value => $this->checkSystemArchitecture($project),
